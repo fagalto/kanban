@@ -1,0 +1,45 @@
+[{
+  "name": "huParts",
+  "type": "mssql",
+  "host": "ELMER",
+  "username": "tracer1",
+  "password": "tracer1",
+  "database": "HU_PARTS",
+  "options": {
+    "encrypt": false,
+    "enableArithAbort": true,
+    "trustServerCertificate": false,
+    "trustedConnection": false
+  },
+  "entities": ["src/entity/**/*.ts"],
+  "migrations": ["src/migration/**/*.ts"],
+  "subscribers": ["src/subscriber/**/*.ts"],
+  "cli": {
+    "entitiesDir": "common/entity",
+    "migrationsDir": "src/migration",
+    "subscribersDir": "src/subscriber"
+  }
+},{
+    "name": "AX",
+  "type": "mssql",
+  "host": "SQL1",
+  "username": "tracer1",
+  "password": "tracer1",
+  "database": "Ax2012AsselProd",
+  "options": {
+    "encrypt": false,
+    "enableArithAbort": true,
+    "trustServerCertificate": false,
+    "trustedConnection": false,
+    "ReturnDatesAsStrings":true ,
+    "CharacterSet":"UTF-8"
+  },
+  "entities": ["src/entity/**/*.ts"],
+  "migrations": ["src/migration/**/*.ts"],
+  "subscribers": ["src/subscriber/**/*.ts"],
+  "cli": {
+    "entitiesDir": "src/entity",
+    "migrationsDir": "src/migration",
+    "subscribersDir": "src/subscriber"
+  }
+}]
