@@ -3,7 +3,7 @@ import { resController } from "../utils/utils";
 import { handleDbQuery } from "./_defaultmethods";
 import getStatus from "../../Router/httpResponse";
 import { methodsAllowed } from "../../DbOperations/allowedTypes";
-import Reel from "../../../entity/Reel";
+import Reel from "../../entity/Reel";
 
 const reelController = (res: resController) => {
   const { request, restParams, response, router, connection, dbResource } = res;

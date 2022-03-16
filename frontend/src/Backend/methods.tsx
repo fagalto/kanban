@@ -16,27 +16,8 @@ export async function getData(url: string) {
   });
   return response;
 }
-export async function putData(url: string, data: any = {}) {
-  const getUrl = new URL(url);
-  console.log(getUrl.href);
-  getUrl.search = new URLSearchParams(data).toString();
-  console.log(getUrl.href);
-  // console.log("putting:",getUrl.href)
-  const response = fetch(url, {
-    method: "GET", // *GET, POST, PUT, DELETE, etc.
- mode:"no-cors",
-        headers: {
-          'Content-Type': 'application/json'
-          
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    }
-    
-  });
-  console.log("response:", response)
-  return response
-}
 //put data to real rest api
-export async function putData2(url: string, data: any = {}) {
+export async function putData(url: string, data: any = {}) {
   const response = fetch(url, {
     method: "PUT", // *GET, POST, PUT, DELETE, etc.
     mode: "cors",
@@ -48,7 +29,7 @@ export async function putData2(url: string, data: any = {}) {
   return response 
 }
 
-export async function deleteData(url: string, data: any = {}) {
+export async function deleteData(url: string) {
   const response = await fetch(url, {
     method: "DELETE", // *GET, POST, PUT, DELETE, etc.
   });

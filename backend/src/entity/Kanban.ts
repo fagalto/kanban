@@ -3,17 +3,15 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeor
 @Entity()
 export default class Kanban_kanban {
   @PrimaryGeneratedColumn()
-  kanban_id: number;
+  kanban_id!: number;
   @Column()
-  name: string;
-  @CreateDateColumn()
-  date: string;
+  name!: string;
   @Column()
-  notes: string;
+  notes!: string;
   @Column()
-  active: boolean;
+  active!: boolean;
   @Column()
-  slot_x: number;
+  slot_x!: number;
   @Column()
-  slot_y: number;
+  slot_y!: number;
 }

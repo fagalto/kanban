@@ -3,19 +3,19 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeor
 @Entity()
 export default class KANBAN_Slot_Details {
   @PrimaryGeneratedColumn()
-  slot_id: number;
+  slot_id!: number;
   @Column()
-  kanban_id: number;
+  kanban_id!: number;
   @Column()
-  slot_coord: string;
+  slot_coord!: string;
   @Column()
-  itemid: string;
+  itemid!: string;
   @Column()
-  req_capacity: number;
+  req_capacity!: number;
   @Column()
-  do_not_refill: boolean;
+  do_not_refill!: boolean;
   @Column()
-  notes: string;
-  @Column()
-  balance: string;
+  notes!: string;
+ // @Column()
+ // balance!: number;
 }

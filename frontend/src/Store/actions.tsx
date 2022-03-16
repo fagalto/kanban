@@ -12,12 +12,13 @@ import {
   SlotMoveActions,
   SlotPutActions,
   FetchReelActions,
-  FilesUploadActions
+  FilesUploadActions,
+  StaticReportActions
 
 } from "./types";
-import { checkServerIdentity } from "tls";
+import * as BT from "../Backend/types";
 
-export const kanDataFetched = (data: kanBan) => {
+export const kanDataFetched = (data: BT.Kanban) => {
   console.log(data)
   return action(KanbanDetailsActions.FETCH_KANBAN_DATA_SUCCESS, data );
 };
@@ -52,7 +53,7 @@ export const kanDataPostError = (error: any) => {
   });
 };
 
-export const slotsDataFetched = (data: any) => {
+export const slotsDataFetched = (data: BT.Slot[]) => {
   console.log("kanban data refreshed");
   return action(SlotsDetailsActions.FETCH_SLOTS_DATA_SUCCESS, {
     slotData: data,
@@ -67,7 +68,7 @@ export const slotsDataFetchEror = (error: any) => {
     error,
   });
 };
-export const slotDataFetched = (data: slotData) => {
+export const slotDataFetched = (data: BT.Slot) => {
   
   return action(SlotDetailsActions.FETCH_SLOT_DATA_SUCCESS, {
     slotData: data,
@@ -109,7 +110,7 @@ export const reelInfoError = (data: any) => {
   return action(SearchTextActions.TEXT_SEARCH_ERROR, { error: data });
 };
 
-export const slotDataPut = (data: any) => {
+export const slotDataPut = (data: BT.Slot) => {
   return  action(SlotPutActions.SLOT_PUT_SUCCESS, { ...data })
   
 };
@@ -132,11 +133,11 @@ export const slotDataMoveError = (error: any) => {
     error,
   });
 };
-export const ReelsFetched = (data: any) => {
+export const ReelsFetched = (data: BT.SlotReel[]) => {
   return action(FetchReelActions.FETCH_REELS_SUCCESS, { data: data });
 };
-export const ReelsFetchStart = (slotid:any) => {
-  return action(FetchReelActions.FETCH_REELS_START, slotid);
+export const ReelsFetchStart = () => {
+  return action(FetchReelActions.FETCH_REELS_START);
 };
 export const ReelsFetchError = (error: any) => {
   return action(FetchReelActions.FETCH_REELS_ERROR, {
@@ -152,3 +153,12 @@ export const FilesUploadFinished = (files: File[]) => {
 export const FilesUploadError = () => {
   return action(FilesUploadActions.FILES_UPLOAD_ERROR,{})
 };
+export const fetchStaticsStart=() => {
+  return action(StaticReportActions.FETCH_STATIC_START);
+}
+export const StaticsFetched=(statics:BT.SlotStatic[]) => {
+   return action(StaticReportActions.FETCH_STATIC_SUCCESS, {data:statics});
+}
+export const StaticsFetchError=(error:any) => {
+  return action(StaticReportActions.FETCH_STATIC_ERROR, {error});
+}

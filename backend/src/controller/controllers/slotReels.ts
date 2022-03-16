@@ -3,7 +3,7 @@ import { resController } from "../utils/utils";
 import { handleDbQuery } from "./_defaultmethods";
 import getStatus from "../../Router/httpResponse";
 import { methodsAllowed } from "../../DbOperations/allowedTypes";
-import SlotReel from "../../../entity/SlotReel";
+import SlotReel from "../../entity/SlotReel";
 
 const slotReelsController = (res: resController) => {
   const { request, restParams, response, router, connection, dbResource } = res;
@@ -55,12 +55,13 @@ const slotReelsController = (res: resController) => {
         handleDbQuery(db.save(newSlot), response, methodsAllowed[method]);
       });
     case "DELETE":
+      const slotReelId = restParams.subParamId;
       router
-        .route(`/slots/${slotId}/reels`)
+        .route(`/slots/${slotId}/reels/${slotReelId}`)
         .delete(async (request: Request, response: Response) => {
-          const slot = new SlotReel();
-          slot.slot_id = Number.parseInt(slotId);
-          handleDbQuery(db.remove(slot), response, methodsAllowed[method]);
+          const slotReel = new SlotReel();
+          slotReel.id = Number.parseInt(slotReelId);
+          handleDbQuery(db.remove(slotReel), response, methodsAllowed[method]);
         });
 
       break;

@@ -1,4 +1,4 @@
-import config from "../../backend/config/dbConfigSelector";
+import config from "../config/dbConfigSelector";
 import mssql from "mssql";
 import express from "express";
 import { dbResource } from "./allowedTypes";

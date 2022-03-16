@@ -3,7 +3,7 @@ import { resController } from "../utils/utils";
 import { handleDbQuery } from "./_defaultmethods";
 import getStatus from "../../Router/httpResponse";
 import { methodsAllowed } from "../../DbOperations/allowedTypes";
-import Slot from "../../../entity/Slot";
+import Slot from "../../entity/Slot";
 import { kanban } from "../../DbOperations/schemas";
 
 const slotController = (res: resController) => {

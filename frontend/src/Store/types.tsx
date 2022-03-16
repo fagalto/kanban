@@ -2,6 +2,8 @@ import { ActionType } from "typesafe-actions";
 import * as actions from "./actions";
 import { kanBan, slotData } from "../Interfaces/interfaces";
 
+import * as BT from "../Backend/types";
+
 export type severity = "error" | "warning" | "info" | "success";
 export interface kanbanMessage {
   messageText: string;
@@ -12,7 +14,7 @@ export interface kanbanMessage {
 export type KanbanActions = ActionType<typeof actions>;
 
 export interface KanbanState {
-  kanbanDetails: kanBan;
+  kanbanDetails: BT.Kanban;
   isLoading: boolean;
   error: any;
   data: any;
@@ -20,11 +22,12 @@ export interface KanbanState {
   worker_no: string;
 }
 export interface SlotsState {
-  slotData: slotData[];
+  slotData: BT.Slot[];
   isLoading: boolean;
   error: any;
   messages: kanbanMessage[];
   slotsFetched: boolean;
+  slotsStatic: BT.SlotStatic[]
 }
 
 export interface dialogState {
@@ -46,8 +49,7 @@ export interface moveState {
   isLoading: boolean;
 }
 export interface fetchedReelsState {
-  reelsInSlot: any;
-  slotId: number | null;
+  reelsInKanban: BT.SlotReel[];
   isLoading: boolean;
   error: any;
   messages: kanbanMessage[];
@@ -132,4 +134,9 @@ export enum FilesUploadActions {
   FILES_UPLOAD_ERROR = "FILES_UPLOAD_ERROR",
   FILES_UPLOAD_SUCCESS = "FILES_UPLOAD_SUCCESS",
   FILES_UPLOAD_START = "FILES_UPLOAD_START",
+}
+export enum StaticReportActions {
+  FETCH_STATIC_ERROR = "FETCH_STATIC_ERROR",
+  FETCH_STATIC_SUCCESS = "FETCH_STATIC_SUCCESS",
+  FETCH_STATIC_START = "FETCH_STATIC_START",
 }

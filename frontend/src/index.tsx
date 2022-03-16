@@ -5,7 +5,10 @@ import { Provider } from "react-redux";
 import store from "./Store/store";
 import "./index.css";
 
-const kanbanId = { kanbanId: 83 };
+const kanbanId = {
+  kanbanId: 82
+
+};
 
 
 ReactDOM.render(

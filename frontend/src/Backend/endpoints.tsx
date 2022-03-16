@@ -10,9 +10,15 @@ const reelSlot = (reel_id: string|number) => {
 const slotReels = (slot_id: string|number) => {
   return `http://${API_BASE}/api/slots/${slot_id}/reels`;
 };
+const kanbanReels = (kanban_id: number) => {
+  return `http://${API_BASE}/api/kanban/${kanban_id}/reels`;
+};
 const slotForItemId = (itemId: number | string, kanbanId: number) =>{
   return `http://${API_BASE}/api/kanban/${kanbanId}/item/${itemId}`;
 }
+const kanbanStatic = (kanban_id: number) => {
+  return `http://${API_BASE}/api/kanban/${kanban_id}/static`;
+};
 const endpoints = {
   KANBAN: `http://${API_BASE}/api/kanban`,
 
@@ -21,8 +27,9 @@ const endpoints = {
   SLOT: `http://${API_BASE}/api/slots`,
   SLOT_KANBAN: slotEndpoint,
   SLOT_REELS: slotReels,
-  SLOT_FOT_ITEMID:slotForItemId
-
+  SLOT_FOT_ITEMID: slotForItemId,
+  KANBAN_REELS: kanbanReels,
+  KANBAN_STATIC: kanbanStatic
 };
 
 //KANBAN_CREATE = "http://eng/control/backend/kanban/kanbanEdit.php", "http://localhost:3000/api"

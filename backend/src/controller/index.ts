@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 
 import { pathDecomposer, restParam, resController } from "./utils/utils";
 import { allowedResources, methodsAllowed } from "../DbOperations/allowedTypes";
-import * as constollers from "../controller/controllers/index";
+import * as constollers from "./controllers/index";
 
 const resourcesController = (res: resController) => {
   console.log(res.restParams.originalPath);
@@ -10,6 +10,9 @@ const resourcesController = (res: resController) => {
 
   switch (res.dbResource.restName) {
     case "kanban":
+      constollers.kanbanController(res);
+      break;
+    case "kanban/reels":
       constollers.kanbanController(res);
       break;
     case "kanban/slots":
@@ -30,6 +33,9 @@ const resourcesController = (res: resController) => {
       break;
     case "reels/slot":
       constollers.slotReelsController(res);
+      break;
+    case "kanban/static":
+      constollers.slotStaticController(res);
       break;
   }
 };

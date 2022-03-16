@@ -1,5 +1,4 @@
 import {
-  Constants,
   KanbanActions,
   KanbanDetailsActions as a,
   KanbanPutActions as kp,
@@ -11,6 +10,7 @@ import {
   SearchTextActions,
   FilesUploadActions,
   FetchReelActions as fr,
+  StaticReportActions as sr,
   KanbanState,
   dialogState,
   InputState,
@@ -22,13 +22,16 @@ import {
   FilesBuffer,
   severity,
 } from "./types";
-import { kanBan, coordinates } from "../Interfaces/interfaces";
 
-const initialKanban: kanBan = {
+import * as BT from "../Backend/types";
+
+const initialKanban: BT.Kanban = {
   kanban_id: 83,
   slot_y: 5,
   slot_x: 5,
   name: "",
+  notes: "", 
+  active:true
 };
 const init: KanbanState = {
   isLoading: false,
@@ -59,14 +62,10 @@ const slotsInitState: SlotsState = {
   error: null,
   messages: [],
   slotsFetched: false,
-};
-const moveStateInit: moveState = {
-  isLoading: false,
-  error: null,
+  slotsStatic:[]
 };
 const fetchedReelsInit: fetchedReelsState = {
-  reelsInSlot: {},
-  slotId: null,
+  reelsInKanban: [],
   isLoading: false,
   error: null,
   messages: [],
@@ -223,6 +222,21 @@ export const slotsReducer = (
         error: action.payload.error,
         messages: messageComposer(action.type, "error", state.messages),
       };
+    case sr.FETCH_STATIC_START:
+      return { ...state, isLoading: true, error: null };
+    case sr.FETCH_STATIC_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        slotsStatic: action.payload.data,
+      };
+    case sr.FETCH_STATIC_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error,
+        messages: messageComposer(action.type, "error", state.messages),
+      };
     default:
       return state;
   }
@@ -233,11 +247,11 @@ export const fetchReelsReducer = (
 ): fetchedReelsState => {
   switch (action.type) {
     case fr.FETCH_REELS_START:
-      return { ...state, isLoading: true, slotId: action.payload.slotId, error: null };
+      return { ...state, isLoading: true, error: null };
     case fr.FETCH_REELS_SUCCESS:
       return {
         ...state,
-        reelsInSlot: action.payload.data,
+        reelsInKanban: action.payload.data,
         isLoading: false,
         error: null,
       };

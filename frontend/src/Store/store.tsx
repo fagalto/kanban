@@ -41,6 +41,7 @@ export const mapStateToProps = ({
 }: RootState) => {
   const { kanbanDetails, worker_no } = kanban;
   const slotData = slots.slotData;
+  const slotStatic = slots.slotsStatic;
   const slotsFetched = slots.slotsFetched;
   const messages = kanban.messages
     .concat(slots.messages, input.messages, reels.messages)
@@ -51,6 +52,7 @@ export const mapStateToProps = ({
   const reelIsLoading = reels.isLoading;
   return {
     slotData,
+    slotStatic,
     slotsFetched,
     isLoading,
     reelIsLoading,
@@ -97,9 +99,10 @@ export const mapDispatcherToProps = (dispatch: Dispatch<KanbanActions>) => {
     openSlotDialog: (xy: string, elem: React.ReactElement, title: string) =>
       asyncactions.openDialog(dispatch, xy, elem, title),
     closeSlotDialog: () => asyncactions.closeDialog(dispatch),
-    fetchReelsInSlot: (slotid: string) => asyncactions.fetchReelsInSlot(dispatch, slotid),
+    fetchReelsInKanban: (slotid: number) => asyncactions.fetchReelsInKanban(dispatch, slotid),
     dialogSetCallback: (callback: Function) => dispatch(actions.dialogSetCallbackFcn(callback)),
     filesUploaded: (files: File[]) => dispatch(actions.FilesUploadFinished(files)),
+    fetchStatics:(kanbanId:number)=> asyncactions.fetchStatics(dispatch, kanbanId)
     //addItems2: (item: string) => asyncactions.addItemAsync(dispatch, item)
   };
 };

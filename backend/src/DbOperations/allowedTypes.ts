@@ -1,4 +1,4 @@
-import configKeyChain from "../../backend/config/dbConfigs";
+import configKeyChain from "../config/dbConfigs";
 import * as schemas from "./schemas";
 
 enum methodsAllowed {
@@ -47,12 +47,26 @@ const reelSlot: dbResource = {
 
   scheme: [], //schemas.slots,
 };
+const kanbanReels: dbResource = {
+  restName: "kanban/reels",
+
+  scheme: [], //schemas.slots,
+};
+const slotStatic: dbResource = {
+  restName: "kanban/static",
+
+  scheme: [], //schemas.slots,
+};
 allowedResources.push(kanban);
+allowedResources.push(kanbanSlots);
+allowedResources.push(kanbanReels);
+
 allowedResources.push(slots);
 allowedResources.push(item);
-allowedResources.push(reelSlot);
-allowedResources.push(kanbanSlots);
+
 allowedResources.push(reels);
 allowedResources.push(slotsReels);
 allowedResources.push(reelSlot);
+allowedResources.push(slotStatic);
+
 export { allowedResources, methodsAllowed, dbResource };

@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,12 +16,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
-  },
-  "include": [
-    "fronend"
-  ],
+    "jsx": "react-jsx",
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
     "paths": {
-    "@shared/*": ["../backend/src/entity/*"]
-  }
+      "@shared/*": ["../backend/src/entity/*"],
+      "typeorm": ["../node_modules/typeorm/typeorm-model-shim.js"]
+    }
+  },
+  "include": ["src"]
 }

@@ -3,8 +3,9 @@ import { resController } from "../utils/utils";
 import { handleDbQuery } from "./_defaultmethods";
 import getStatus from "../../Router/httpResponse";
 import { methodsAllowed } from "../../DbOperations/allowedTypes";
-import Kanban from "../../../entity/Kanban";
-import Slot from "../../../entity/Slot"
+import Kanban from "../../entity/Kanban";
+import Slot from "../../entity/Slot"
+import SlotReel from "../../entity/SlotReel";
 
 const kanbanController = (res: resController) => {
 
@@ -60,6 +61,19 @@ const kanbanController = (res: resController) => {
                 methodsAllowed[method]
               );
             }); 
+                router
+                  .route(`/kanban/${paramId}/reels/`)
+                  .get((request: Request, response: Response) => {
+                    handleDbQuery(
+                      db
+                        .createQueryBuilder(SlotReel, "slotReels")
+                        .innerJoinAndSelect(Slot, "slot","slotReels.slot_id=slot.slot_id")
+                        .where(`slot.kanban_id = '${paramId}'`)
+                        .getMany(),
+                      response,
+                      methodsAllowed[method]
+                    );
+                  });
       break;
     case "PUT":
       console.log(`/${resourceName}/${paramId}`);
@@ -72,6 +86,7 @@ const kanbanController = (res: resController) => {
 
           newKanban[keyName] = elem[1];
         });
+        console.log("req:", newKanban);
         handleDbQuery(db.save(newKanban), response, methodsAllowed[method]);
       });
 

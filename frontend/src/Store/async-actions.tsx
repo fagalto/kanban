@@ -29,12 +29,16 @@ import {
   ReelsFetched,
   ReelsFetchStart,
   ReelsFetchError,
+  fetchStaticsStart,
+  StaticsFetchError,
+  StaticsFetched
 } from "./actions";
-import endpoints  from "../Backend/endpoints";
-import { getData, postData, putData, putData2, deleteData } from "../Backend/methods";
-import { KanbanActions } from "./types";
-import { slotData, reelDetails, slotReel } from "../Interfaces/interfaces";
+import endpoints from "../Backend/endpoints";
+import { getData, postData, putData, deleteData } from "../Backend/methods";
+import { KanbanActions, SlotPutActions } from "./types";
+import { slotData } from "../Interfaces/interfaces";
 import { keyboardOptions } from "@testing-library/user-event/dist/keyboard";
+import * as BT from "../Backend/types";
 
 export const fetchKanbanData = (dispatch: Dispatch<KanbanActions>, id: number) => {
   dispatch(kanDataFetchStart());
@@ -44,14 +48,14 @@ export const fetchKanbanData = (dispatch: Dispatch<KanbanActions>, id: number) =
     .catch((err) => dispatch(kanDataFetchError(err)));
 };
 
-export const putKanbanData = (dispatch: Dispatch<KanbanActions>, data: any, id: number) => {
+export const putKanbanData = (dispatch: Dispatch<KanbanActions>, data: BT.Kanban, id: number) => {
   dispatch(kanDataPutStart());
-  putData2(`${endpoints.KANBAN}/${id}`, data)
+  putData(`${endpoints.KANBAN}/${id}`, data)
     .then((res) => res.json())
     .then((json) => dispatch(kanDataPut(json)))
     .catch((err) => dispatch(kanDataPutError(err)));
 };
-export const postKanbanData = (dispatch: Dispatch<KanbanActions>, data: any) => {
+export const postKanbanData = (dispatch: Dispatch<KanbanActions>, data: BT.Kanban) => {
   dispatch(kanDataPostStart());
   postData(`${endpoints.KANBAN}`, data)
     .then((res) => res.json())
@@ -59,25 +63,30 @@ export const postKanbanData = (dispatch: Dispatch<KanbanActions>, data: any) => 
     .catch((err) => dispatch(kanDataPostError(err)));
 };
 
-export const fetchSlotsData = (dispatch: Dispatch<KanbanActions>, id: number) => {
+export const fetchSlotsData = (dispatch: Dispatch<KanbanActions>, kanbanId: number) => {
   dispatch(slotsDataFetchStart());
-  getData(`${endpoints.SLOT_KANBAN(id)}`)
+  getData(`${endpoints.SLOT_KANBAN(kanbanId)}`)
     .then((res) => res.json())
-    .then((json) => dispatch(slotsDataFetched(json)))
+    .then((json: BT.Slot[]) => dispatch(slotsDataFetched(json)))
     .catch((err) => dispatch(slotsDataFetchEror(err)));
 };
-export const fetchReelsInSlot = (dispatch: Dispatch<KanbanActions>, slotId: string) => {
-  dispatch(ReelsFetchStart({ slotId: slotId }));
-  getData(`${endpoints.SLOT_REELS(slotId)}`)
+export const fetchReelsInKanban = async (dispatch: Dispatch<KanbanActions>, kanbanId: number) => {
+  dispatch(ReelsFetchStart());
+  const resp = getData(`${endpoints.KANBAN_REELS(kanbanId)}`)
     .then((res) => res.json())
-    .then((json) => dispatch(ReelsFetched(json)))
-    .catch((err) => dispatch(ReelsFetchError(err)));
+    .then((json: BT.SlotReel[]) => {
+      dispatch(ReelsFetched(json));
+    })
+    .catch((err) => {
+      dispatch(ReelsFetchError(err));
+    });
 };
-export const fetchSlotData = (dispatch: Dispatch<KanbanActions>, id: number|string) => {
+
+export const fetchSlotData = (dispatch: Dispatch<KanbanActions>, slotId: number | string) => {
   dispatch(slotDataFetchStart());
-  getData(`${endpoints.SLOT}/${id}`)
+  getData(`${endpoints.SLOT}/${slotId}`)
     .then((res) => res.json())
-    .then((json) => dispatch(slotDataFetched(json)))
+    .then((json: BT.Slot) => dispatch(slotDataFetched(json)))
     .catch((err) => dispatch(slotDataFetchEror(err)));
 };
 export const searchTextAction = (
@@ -89,58 +98,65 @@ export const searchTextAction = (
   dispatch(searchText(text));
   getData(`${endpoints.REELS}/${text}`)
     .then((res) => res.json())
-    .then((reel: reelDetails) => reelAction(dispatch, reel, kanbanId))
-    /*
-      dispatch(slotsDataFetchStart());
-      getData(slotEndpoint(kanbanId), { kanbanid: kanbanId })
-        .then((res) => res.json())
-        .then((json) => dispatch(slotsDataFetched(json)))
-        .catch((err) => dispatch(slotsDataFetchEror(err)));
-        */
+    .then((reel: BT.Reel) => reelAction(dispatch, reel, kanbanId))
     .catch((err) => dispatch(reelInfoError(err)));
 };
 export const reelAction = async (
   dispatch: Dispatch<KanbanActions>,
-  reelDetails: reelDetails,
-  kanbanId:number
+  reelDetails: BT.Reel,
+  kanbanId: number
 ) => {
-  const { REELID, ITEMID, QTY } = reelDetails
+  const { REELID, ITEMID, QTY } = reelDetails;
+  console.log("have Reel:", reelDetails);
   //look for slot for such itemid.
-
-  console.log("got:", reelDetails);
-
-  const slotForReel = await getData(`${endpoints.SLOT_FOT_ITEMID(ITEMID,kanbanId)}`).then(res=>res.json()).catch(err=>dispatch(reelInfoError("itemid reel info fetch error")))
-  console.log("slotforReel is:", slotForReel);
-  //I have reeel and slot for the reel
-  //now check if reel is in slot
-  const reelsInSlot = await getData(`${endpoints.SLOT_REELS(slotForReel["slot_id"])}`)
+  reelDetails.REELID == null
+    ? dispatch(reelInfoError("reel not exists"))
+    : await getData(`${endpoints.SLOT_FOT_ITEMID(ITEMID, kanbanId)}`)
+        .then((res) => res.json())
+        .then((slot: BT.Slot) => slotHasReels(dispatch, slot, reelDetails))
+        .catch((err) => dispatch(reelInfoError("itemid reel info fetch error")));
+};
+export const slotHasReels = async (
+  dispatch: Dispatch<KanbanActions>,
+  slot: BT.Slot,
+  reel: BT.Reel
+) => {
+  console.log("have Slot:", slot);
+  getData(`${endpoints.SLOT_REELS(slot.slot_id)}`)
     .then((res) => res.json())
-    .catch((err) => dispatch(reelInfoError(err)));
-  console.log(reelsInSlot)
-  /*
-  const slot: slotReel = await getData(`${endpoints.REELS_SLOT(REELID)}`)
-    .then((res) => res.json())
-    .catch((err) => dispatch(reelInfoError(err)));
-  console.log(slot)
-  reelDetails.ITEMID == null && dispatch(reelInfoError("no data"));
+    .then((reels: BT.SlotReel[]) => {
+      const slotReel = reels.find((elem) => elem.reel_id == reel.REELID);
 
-  if (reelDetails.ITEMID != null && slot.id != null) {
-    console.log("delete")
-    await deleteData(`${endpoints.SLOT_REELS(slot.id)}`)
-      .then((res) => res.json())
-      .then((json) => dispatch(reelInfoFetched("TAKE_OUT")))
-      .catch((err) => dispatch(reelInfoError("err take out reel")));
-  }
+      slotReel ? SlotTakeOut(dispatch, slot, slotReel) : SlotPutIn(dispatch, slot, reel);
+    })
+    .catch((err) => dispatch(reelInfoError("slot fetch reels error")));
+};
+export const SlotTakeOut = (
+  dispatch: Dispatch<KanbanActions>,
+  slot: BT.Slot,
+  slotReel: BT.SlotReel
+) => {
+  console.log("take out :", slotReel);
 
-  if (reelDetails.ITEMID != null && slot.id == null) {
-    console.log("post");
-        await postData(`${endpoints.REELS_SLOT(REELID)}`)
-          .then((res) => res.json())
-          .then((json) => dispatch(reelInfoFetched("PUT_IN")))
-          .catch((err) => dispatch(reelInfoError("err post reel")));
-    // && dispatch(reelInfoFetched("TAKE_OUT"));
-  }
-  */
+  deleteData(`${endpoints.SLOT_REELS(slotReel.slot_id)}/${slotReel.id}`)
+    .then((res) => {
+      dispatch(reelInfoFetched("TAKEOUT"));
+      fetchReelsInKanban(dispatch, slot.kanban_id);
+    })
+    .catch((err) => dispatch(reelInfoError("Reel Takeout Error")));
+};
+export const SlotPutIn = (dispatch: Dispatch<KanbanActions>, slot: BT.Slot, reel: BT.Reel) => {
+  console.log("put in :", slot, reel);
+  const slotReel = {
+    reel_id: reel.REELID,
+    slot_id: slot.slot_id,
+  };
+  postData(`${endpoints.SLOT_REELS(slot.slot_id)}`, slotReel)
+    .then((res) => {
+      dispatch(reelInfoFetched("PUT_IN"));
+      fetchReelsInKanban(dispatch, slot.kanban_id);
+    })
+    .catch((err) => dispatch(reelInfoError("Reel Put Error")));
 };
 export const openDialog = (
   dispatch: Dispatch<KanbanActions>,
@@ -157,7 +173,7 @@ export const closeDialog = (dispatch: Dispatch<KanbanActions>) => {
 export const putSlotData = (dispatch: Dispatch<KanbanActions>, data: any, id: number) => {
   dispatch(slotDataPutStart());
 
-  putData2(`${endpoints.SLOT}/${id}`, data)
+  putData(`${endpoints.SLOT}/${id}`, data)
     .then((res) => res.json())
     .then((json) => dispatch(slotDataPut(json)))
     .catch((err) => dispatch(slotDataPutError(err)));
@@ -175,26 +191,22 @@ export async function moveSlot(
   toSlot: slotData,
   kanbanId: number
 ) {
-  const fromId = fromSlot.slot_id;
   const fromCoords = fromSlot.slot_coord;
-  const toId = toSlot.slot_id;
   const toCoords = toSlot.slot_coord;
 
   const copyFromSlot = Object.assign({}, fromSlot);
   const copyToSlot = Object.assign({}, toSlot);
 
-  copyFromSlot.slot_id = toId;
   copyFromSlot.slot_coord = toCoords;
-  copyToSlot.slot_id = fromId;
   copyToSlot.slot_coord = fromCoords;
   copyToSlot.itemid = "";
   copyToSlot.req_capacity = 0;
   copyToSlot.balance = 0;
 
   dispatch(slotDataMoveStart());
-  putData2(`${endpoints.SLOT}/${toId}`, copyFromSlot)
+  putData(`${endpoints.SLOT}/${fromSlot.slot_id}`, copyFromSlot)
     .then((json) => {
-      putData2(`${endpoints.SLOT}/${fromId}`, copyToSlot)
+      putData(`${endpoints.SLOT}/${toSlot.slot_id}`, copyToSlot)
         .then((json) => {
           dispatch(slotDataMoved(json));
           fetchSlotsData(dispatch, kanbanId);
@@ -207,3 +219,11 @@ export async function moveSlot(
       dispatch(slotDataMoveError(err));
     });
 }
+export const fetchStatics = (dispatch: Dispatch<KanbanActions>, kanbanId: number) => {
+
+    dispatch(fetchStaticsStart());
+    getData(`${endpoints.KANBAN_STATIC(kanbanId)}`)
+      .then((res) => res.json())
+      .then((json: BT.SlotStatic[]) => dispatch(StaticsFetched(json)))
+      .catch((err) => dispatch(StaticsFetchError(err)));
+};
