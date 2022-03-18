@@ -15,6 +15,7 @@ async function connect() {
     const connAX = await createConnection("AX"); 
     connections.push(conn);
     connections.push(connAX);
+
     return connections;
 }
 app.use(bodyParser.urlencoded({ extended: true }));

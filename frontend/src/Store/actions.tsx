@@ -153,12 +153,12 @@ export const FilesUploadFinished = (files: File[]) => {
 export const FilesUploadError = () => {
   return action(FilesUploadActions.FILES_UPLOAD_ERROR,{})
 };
-export const fetchStaticsStart=() => {
-  return action(StaticReportActions.FETCH_STATIC_START);
-}
-export const StaticsFetched=(statics:BT.SlotStatic[]) => {
-   return action(StaticReportActions.FETCH_STATIC_SUCCESS, {data:statics});
-}
-export const StaticsFetchError=(error:any) => {
-  return action(StaticReportActions.FETCH_STATIC_ERROR, {error});
-}
+export const fetchWhStockStart = () => {
+  return action(StaticReportActions.FETCH_WHSTOCK_START);
+};
+export const WhStockFetched = (statics: BT.WhStock[]) => {
+  return action(StaticReportActions.FETCH_WHSTOCK_SUCCESS, { data: statics });
+};
+export const WhStockFetchError = (error: any) => {
+  return action(StaticReportActions.FETCH_WHSTOCK_ERROR, { error });
+};

@@ -57,6 +57,11 @@ const slotStatic: dbResource = {
 
   scheme: [], //schemas.slots,
 };
+const warehouse: dbResource = {
+  restName: "warehouse",
+
+  scheme: [], //schemas.slots,
+};
 allowedResources.push(kanban);
 allowedResources.push(kanbanSlots);
 allowedResources.push(kanbanReels);
@@ -68,5 +73,5 @@ allowedResources.push(reels);
 allowedResources.push(slotsReels);
 allowedResources.push(reelSlot);
 allowedResources.push(slotStatic);
-
+allowedResources.push(warehouse);
 export { allowedResources, methodsAllowed, dbResource };

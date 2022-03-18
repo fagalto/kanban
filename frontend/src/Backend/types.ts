@@ -3,4 +3,6 @@ import Kanban from "@shared/Kanban";
 import Reel from "@shared/Reel";
 import SlotReel from "@shared/SlotReel";
 import SlotStatic from "@shared/SlotStatic";
-export { Slot, Kanban, Reel, SlotReel,SlotStatic };
+import LackReport from "@shared/Report";
+import WhStock from "@shared/WhStock"
+export { Slot, Kanban, Reel, SlotReel,SlotStatic,LackReport,WhStock  };

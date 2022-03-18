@@ -8,7 +8,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import Draggable from "react-draggable";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 
 function PaperComponent(props: PaperProps) {
@@ -53,9 +52,9 @@ const KanBanDialog: React.FC<ReduxType> = function (props) {
     props.dialog.dialogCallback != null && props.dialog.dialogCallback();
   };
   return (
-    <Dialog open={props.dialog.dialogOpen} scroll="paper">
+    <Dialog open={props.dialog.dialogOpen} scroll="paper" maxWidth={false}>
       <BootstrapDialogTitle onClose={handleClick}>{props.dialog.dialogTitle}</BootstrapDialogTitle>
-      <DialogContent>{props.dialog.component}</DialogContent>
+      <DialogContent >{props.dialog.component}</DialogContent>
     </Dialog>
   );
 };

@@ -27,7 +27,7 @@ export interface SlotsState {
   error: any;
   messages: kanbanMessage[];
   slotsFetched: boolean;
-  slotsStatic: BT.SlotStatic[]
+  whStock: BT.WhStock[];
 }
 
 export interface dialogState {
@@ -136,7 +136,7 @@ export enum FilesUploadActions {
   FILES_UPLOAD_START = "FILES_UPLOAD_START",
 }
 export enum StaticReportActions {
-  FETCH_STATIC_ERROR = "FETCH_STATIC_ERROR",
-  FETCH_STATIC_SUCCESS = "FETCH_STATIC_SUCCESS",
-  FETCH_STATIC_START = "FETCH_STATIC_START",
+  FETCH_WHSTOCK_ERROR = "FETCH_WHSTOCK_ERROR",
+  FETCH_WHSTOCK_SUCCESS = "FETCH_WHSTOCK_SUCCESS",
+  FETCH_WHSTOCK_START = "FETCH_WHSTOCK_START",
 }

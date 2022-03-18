@@ -29,9 +29,9 @@ import {
   ReelsFetched,
   ReelsFetchStart,
   ReelsFetchError,
-  fetchStaticsStart,
-  StaticsFetchError,
-  StaticsFetched
+  fetchWhStockStart,
+  WhStockFetched,
+  WhStockFetchError
 } from "./actions";
 import endpoints from "../Backend/endpoints";
 import { getData, postData, putData, deleteData } from "../Backend/methods";
@@ -219,11 +219,10 @@ export async function moveSlot(
       dispatch(slotDataMoveError(err));
     });
 }
-export const fetchStatics = (dispatch: Dispatch<KanbanActions>, kanbanId: number) => {
-
-    dispatch(fetchStaticsStart());
-    getData(`${endpoints.KANBAN_STATIC(kanbanId)}`)
-      .then((res) => res.json())
-      .then((json: BT.SlotStatic[]) => dispatch(StaticsFetched(json)))
-      .catch((err) => dispatch(StaticsFetchError(err)));
+export const fetchWhStock = (dispatch: Dispatch<KanbanActions>) => {
+  dispatch(fetchWhStockStart());
+  getData(`${endpoints.WH_STOCK}`)
+    .then((res) => res.json())
+    .then((json: BT.WhStock[]) => dispatch(WhStockFetched(json)))
+    .catch((err) => dispatch(WhStockFetchError(err)));
 };

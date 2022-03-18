@@ -42,4 +42,28 @@
     "migrationsDir": "src/migration",
     "subscribersDir": "src/subscriber"
   }
+},
+{
+    "name": "SQLDEV",
+  "type": "mssql",
+  "host": "SQL1\\DEV",
+  "username": "tracer1",
+  "password": "tracer1",
+  "database": "MsDaxOutDB",
+  "options": {
+    "encrypt": false,
+    "enableArithAbort": true,
+    "trustServerCertificate": false,
+    "trustedConnection": false,
+    "ReturnDatesAsStrings":true ,
+    "CharacterSet":"UTF-8"
+  },
+  "entities": ["src/entity/**/*.ts"],
+  "migrations": ["src/migration/**/*.ts"],
+  "subscribers": ["src/subscriber/**/*.ts"],
+  "cli": {
+    "entitiesDir": "src/entity",
+    "migrationsDir": "src/migration",
+    "subscribersDir": "src/subscriber"
+  }
 }]

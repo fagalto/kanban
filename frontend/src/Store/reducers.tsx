@@ -62,7 +62,7 @@ const slotsInitState: SlotsState = {
   error: null,
   messages: [],
   slotsFetched: false,
-  slotsStatic:[]
+  whStock: [],
 };
 const fetchedReelsInit: fetchedReelsState = {
   reelsInKanban: [],
@@ -222,15 +222,15 @@ export const slotsReducer = (
         error: action.payload.error,
         messages: messageComposer(action.type, "error", state.messages),
       };
-    case sr.FETCH_STATIC_START:
+    case sr.FETCH_WHSTOCK_START:
       return { ...state, isLoading: true, error: null };
-    case sr.FETCH_STATIC_SUCCESS:
+    case sr.FETCH_WHSTOCK_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        slotsStatic: action.payload.data,
+        whStock: action.payload.data,
       };
-    case sr.FETCH_STATIC_ERROR:
+    case sr.FETCH_WHSTOCK_ERROR:
       return {
         ...state,
         isLoading: false,

@@ -21,7 +21,7 @@ const kanbanStatic = (kanban_id: number) => {
 };
 const endpoints = {
   KANBAN: `http://${API_BASE}/api/kanban`,
-
+  WH_STOCK: `http://${API_BASE}/api/warehouse`,
   REELS: `http://${API_BASE}/api/reels`,
   REELS_SLOT: reelSlot,
   SLOT: `http://${API_BASE}/api/slots`,

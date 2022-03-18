@@ -37,6 +37,9 @@ const resourcesController = (res: resController) => {
     case "kanban/static":
       constollers.slotStaticController(res);
       break;
+    case "warehouse":
+      constollers.whStockController(res);
+      break;
   }
 };
 

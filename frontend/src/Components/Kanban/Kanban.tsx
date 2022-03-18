@@ -24,6 +24,7 @@ const Kanban: React.FC<kanbanProps> = function (props) {
       props.fetchKanData(props.kanbanId);
       props.fetchAllSlotsData(props.kanbanId);
       props.fetchReelsInKanban(props.kanbanId);
+      props.fetchWhStock();
     };
 
     fetchData();
