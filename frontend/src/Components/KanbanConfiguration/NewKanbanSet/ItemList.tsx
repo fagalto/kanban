@@ -7,14 +7,17 @@ interface itemList {
 
 const ItemList = (props: itemList) => {
   const file = props.file;
-    const sheetName = file.SheetNames[0];
-    console.log("sheetNames:", file.SheetNames);
-     console.log("sheets:", file.Sheets);
+  console.log("file:",file)
+  const sheetName = file.SheetNames[0];
   const workSheet = file.Sheets[sheetName];
+  const sheets = file.SheetNames.map(sheet => {
+    const data = XLSX.utils.sheet_to_json(file.Sheets[sheet], { header: 3 });
+    console.log("sheetData:",data)
+  })
   /* Convert array of arrays */
     const data = XLSX.utils.sheet_to_json(workSheet, {header:3} );
  
-    console.log("worksheet: ",data)
+
 
   return <div></div>;
 };

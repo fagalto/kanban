@@ -10,6 +10,7 @@ import { connectToStore, ReduxType } from "../../../Store/store";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import * as BT from "../../../Backend/types";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -20,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export interface DropResult extends ReduxType {
-  slot: slotData;
+  slot: BT.Slot
   slotCoord: string;
 }
 

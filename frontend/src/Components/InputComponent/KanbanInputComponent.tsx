@@ -1,10 +1,7 @@
-import { ChangeEvent, useState, useEffect, KeyboardEvent } from "react";
-import { kanBan } from "../../Interfaces/interfaces";
+import { ChangeEvent, useState, KeyboardEvent } from "react";
 import { connectToStore, ReduxType, mapInputToProps } from "../../Store/store";
-
 import { TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import CropFreeIcon from "@mui/icons-material/CropFree";
 import { kanbanMessage } from "../../Store/types";
 
@@ -18,7 +15,7 @@ const KanbanInputComponent = (props: ReduxType) => {
   const lastMessage = props.messages.slice().pop();
 
   let message = lastMessage !== undefined ? (lastMessage as kanbanMessage) : initmsg;
-  const error = message.messageSeverity == "error" ? true : false;
+  const error = message.messageSeverity === "error" ? true : false;
 
   const [value, setValue] = useState({
     text: "",

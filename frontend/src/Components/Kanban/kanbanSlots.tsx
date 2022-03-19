@@ -1,4 +1,3 @@
-import { coordinates, kanBan, slotData } from "../../Interfaces/interfaces";
 import SlotComponent from "./Slot/SlotComponent";
 import { connectToStore, ReduxType, mapSlotsToProps } from "../../Store/store";
 
@@ -14,43 +13,32 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 const KanBanSlots = function (props: ReduxType) {
-  const slotValues = props.slotData !==null? Object.values(props.slotData):[]
   let kanbanRows = [];
-  let kanbanCols = [];
   const kanban = props.kanbanDetails;
 
-  const areRowsNotEmpty =
-    kanban.slot_y > 0 &&
-    kanban.slot_x > 0 &&
-    kanban.slot_y != undefined &&
-    kanban.slot_x != undefined;
-  if (areRowsNotEmpty) {
-  
-    for (let i = 1; i <= kanban.slot_x; i++) {
-      kanbanCols.push(
-        <Grid item xs={1} key={i}>
-          <Item>{i}</Item>
-        </Grid>
-      );
-    }
-    kanbanRows.push(kanbanCols);
-    kanbanCols = [];
- 
-    for (let j = 1; j <= kanban.slot_y; j++) {
-      for (let i = 1; i <= kanban.slot_x; i++) {
-        
-        const slot = {
-          slot: props.slotData.find((slot) => slot.slot_coord == `${i},${j}`),
-          slotCoord:`${i},${j}`
-        };
-        const slotComponentt = <SlotComponent {...slot} key={`key${i},${j},${slot.slot?.itemid}`} />;
+  const rows = Array.from({ length: kanban.slot_y }, (v, k) => k + 1);
+  const cols = Array.from({ length: kanban.slot_x }, (v, k) => k + 1);
 
-        kanbanCols.push(slotComponentt);
-      }
-      kanbanRows.push(kanbanCols);
-      kanbanCols = [];
-    }
-  }
+  const header = cols.map((column, i) => (
+    <Grid item xs={1} key={i}>
+      <Item>{column}</Item>
+    </Grid>
+  ));
+  kanbanRows.push(header);
+
+  const body = rows.map((row) => {
+    const rows = cols.map((column) => {
+      const slot = {
+        slot: props.slotData.find((slot) => slot.slot_coord === `${column},${row}`),
+        slotCoord: `${column},${row}`,
+      };
+      return <SlotComponent {...slot} key={`key${column},${row},${slot.slot?.itemid}`} />;
+    })
+    return rows
+  })
+  
+  kanbanRows.push(body)
+
   return (
     <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
       <div

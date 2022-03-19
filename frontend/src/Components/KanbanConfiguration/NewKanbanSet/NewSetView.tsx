@@ -9,7 +9,7 @@ import NewSetActions from "./NewSetActions";
 const kanbanProposedItemsView = (props: ReduxType) => {
   const file =
     props.filesBuffer.files.length > 0
-      ? XLSX.read(props.filesBuffer.files[0].name, { type: "binary" })
+      ? XLSX.read(props.filesBuffer.files[0].name, { type: "array" })
       : null;
 
   return file !=null ? (

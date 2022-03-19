@@ -1,4 +1,3 @@
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 
@@ -7,7 +6,6 @@ import Rows from "./Rows";
 
 type rowProps = {
   rows: BT.LackReport[];
-  columnOrder: string[];
 };
 
 const ReportRow = (props: rowProps) => {

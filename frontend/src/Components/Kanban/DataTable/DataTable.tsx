@@ -1,13 +1,9 @@
-import * as React from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Header from "../DataTable/Header/Header";
 import ReportRow from "../DataTable/Rows/LackReportRow";
 
-import * as BT from "../../../Backend/types";
 
 export type tableProps = {
   rows: any;

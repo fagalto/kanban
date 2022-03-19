@@ -10,14 +10,14 @@ import EmptySlot from "./EmptySlot";
 
 interface slot extends ReduxType {
   slotCoord: string;
+  slot: BT.Slot;
 }
 
 const Slot = (props: slot) => {
-  const reels: BT.SlotReel[] = [];
-  const [slotReels, setReel] = useState(reels);
-
   const details = props.slotData.find((slot) => slot.slot_coord === props.slotCoord);
-  const level = props.reels.reelsInKanban.filter(elem=>elem.slot_id==details?.slot_id).length
+  const level = props.reels.reelsInKanban.filter(
+    (elem) => elem.slot_id === details?.slot_id
+  ).length;
 
   useEffect(() => {
     const createEmptySlot = () => {
@@ -30,29 +30,28 @@ const Slot = (props: slot) => {
       props.postSlotData(record);
     };
 
-    details?.slot_id === undefined && createEmptySlot() 
+    details?.slot_id === undefined && createEmptySlot();
   }, [props.slotData]);
-
 
   //console.log("rendering slot", props.slotDetails.slot_coord)
   const slotDetailsWithBalance = {
     ...details,
     balance: level,
   };
-    const clickHandle = (event: React.MouseEvent<HTMLDivElement>) => {
-      const coords = `${event.pageX},${event.pageY}`;
-      const elem = <SlotDialogComponent {...slotDetailsWithBalance} />;
+  const clickHandle = (event: React.MouseEvent<HTMLDivElement>) => {
+    const coords = `${event.pageX},${event.pageY}`;
+    const elem = <SlotDialogComponent {...slotDetailsWithBalance} />;
 
-      props.openSlotDialog(coords, elem, `Parametry Slotu ${details?.slot_id}`);
-    };
+    props.openSlotDialog(coords, elem, `Parametry Slotu ${details?.slot_id}`);
+  };
   return details == undefined ? (
     <EmptySlot />
   ) : (
     <div className="slot" onClick={clickHandle}>
-        <SlotFillet {...details} balance={level} />
+      <SlotFillet {...details} balance={level} />
       <div className="slotData">
         <div className="slot_ax">{details?.itemid}</div>
-        <div className="slot_fill">{level==0?"":level}</div>
+        <div className="slot_fill">{level == 0 ? "" : level}</div>
       </div>
     </div>
   );

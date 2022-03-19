@@ -1,12 +1,10 @@
 import { combineReducers, createStore } from "redux";
-import { KanbanState, RootState } from "./types";
+import { RootState } from "./types";
 import * as asyncactions from "./async-actions";
 import { Dispatch } from "redux";
 import { KanbanActions } from "./types";
 import * as actions from "./actions";
 import { connect } from "react-redux";
-import thunk from "redux-thunk";
-import { inputUnstyledClasses } from "@mui/base";
 import {
   kanbanReducer,
   slotsReducer,
@@ -18,16 +16,19 @@ import {
 
 import { slotData } from "../Interfaces/interfaces";
 
-const store = createStore<RootState, any, any, any>(
-  combineReducers({
-    kanban: kanbanReducer,
-    slots: slotsReducer,
-    input: inputReducer,
-    dialog: slotDialogReducer,
-    reels: fetchReelsReducer,
-    filesBuffer: filesReducer,
-  })
-);
+const store = (storeNo: number = 1) => {
+   
+  return createStore<RootState, any, any, any>(
+    combineReducers({
+      kanban: kanbanReducer,
+      slots: slotsReducer,
+      input: inputReducer,
+      dialog: slotDialogReducer,
+      reels: fetchReelsReducer,
+      filesBuffer: filesReducer,
+    })
+  );
+}
 
 export default store;
 

@@ -31,7 +31,7 @@ const UploadFilesComponent = (props: UploadFilesProps) => {
       reader.onload = function (this: FileReader, ev: ProgressEvent<FileReader>) {
         resolve(reader.result);
       };
-      reader.readAsBinaryString(file); // here the file can be read in different way Text, DataUrl, ArrayBuffer
+      reader.readAsText(file); // here the file can be read in different way Text, DataUrl, ArrayBuffer
     });
   }
 
