@@ -13,8 +13,8 @@ import {
   SlotPutActions,
   FetchReelActions,
   FilesUploadActions,
-  StaticReportActions
-
+  StaticReportActions,
+  HighlightSlotsActions
 } from "./types";
 import * as BT from "../Backend/types";
 
@@ -162,3 +162,6 @@ export const WhStockFetched = (statics: BT.WhStock[]) => {
 export const WhStockFetchError = (error: any) => {
   return action(StaticReportActions.FETCH_WHSTOCK_ERROR, { error });
 };
+export const highlightSlots = (slots: number[]) => {
+  return action(HighlightSlotsActions.SET_HIGHLIGHTED_SLOTS, { slots });
+}

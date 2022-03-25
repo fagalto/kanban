@@ -15,6 +15,7 @@ import {
 } from "./reducers";
 
 import { slotData } from "../Interfaces/interfaces";
+import * as BT from "../Backend/types";
 
 const store = (storeNo: number = 1) => {
    
@@ -41,7 +42,7 @@ export const mapStateToProps = ({
   filesBuffer,
 }: RootState) => {
   const { kanbanDetails, worker_no } = kanban;
-  const slotData = slots.slotData;
+  const slotData = slots;
   const whStock = slots.whStock;
   const slotsFetched = slots.slotsFetched;
   const messages = kanban.messages
@@ -70,6 +71,10 @@ export const mapSlotsToProps = ({ slots, kanban }: RootState) => {
   const slotData = slots.slotData;
   return { slotData, kanbanDetails };
 };
+export const mapKanbanToProps = ({ slots, kanban }: RootState) => {
+  const { kanbanDetails, worker_no } = kanban;
+  return { kanbanDetails };
+};
 export const mapReelsToProps = ({ reels }: RootState) => {
   const reelIsLoading = reels.isLoading;
   return { reels, reelIsLoading };
@@ -79,8 +84,8 @@ export const mapInputToProps = ({ kanban, input }: RootState) => {
   const kanbanDetails = kanban.kanbanDetails;
   return { input, messages, kanbanDetails };
 };
-export const mapFilesToProps = ({ filesBuffer }: RootState) => {
-  return { filesBuffer };
+export const mapFilesToProps = ({ filesBuffer,slots }: RootState) => {
+  return { filesBuffer,slots };
 };
 
 export const mapDispatcherToProps = (dispatch: Dispatch<KanbanActions>) => {
@@ -89,7 +94,7 @@ export const mapDispatcherToProps = (dispatch: Dispatch<KanbanActions>) => {
     fetchAllSlotsData: (id: number) => asyncactions.fetchSlotsData(dispatch, id),
     putKanbanData: (data: any, id: number) => asyncactions.putKanbanData(dispatch, data, id),
     postKanbanData: (data: any) => asyncactions.postKanbanData(dispatch, data),
-    putSlotData: (data: any, id: number) => asyncactions.putSlotData(dispatch, data, id),
+    putSlotData: (data: BT.Slot, id: number) => asyncactions.putSlotData(dispatch, data, id),
     postSlotData: (data: any) => asyncactions.postSlotData(dispatch, data),
     fetchSlotData: (id: number) => asyncactions.fetchSlotData(dispatch, id),
     //inputText: (text: string) => actions.fetchTextAction(text),
@@ -104,6 +109,7 @@ export const mapDispatcherToProps = (dispatch: Dispatch<KanbanActions>) => {
     dialogSetCallback: (callback: Function) => dispatch(actions.dialogSetCallbackFcn(callback)),
     filesUploaded: (files: File[]) => dispatch(actions.FilesUploadFinished(files)),
     fetchWhStock: () => asyncactions.fetchWhStock(dispatch),
+    highlightSlots: (slots: number[]) => dispatch(actions.highlightSlots(slots)),
     //addItems2: (item: string) => asyncactions.addItemAsync(dispatch, item)
   };
 };

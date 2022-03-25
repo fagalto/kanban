@@ -7,16 +7,16 @@ import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 
 import Stack from "@mui/material/Stack";
+import * as BT from "../../../../Backend/types";
 
-interface slot extends slotData, ReduxType {
-  slotDetails: slotData;
+interface slot extends ReduxType {
+  slotDetails: BT.Slot;
 }
 
 const SlotDetailView: React.FC<slot> = function (props) {
-  const level =
-    props.slotDetails.balance != undefined && props.slotDetails.balance > 0
-      ? props.slotDetails.balance
-      : 0;
+  const level = props.reels.reelsInKanban.filter(
+    (elem) => elem.slot_id === props.slotDetails?.slot_id
+  ).length;
 
   const [value, setValue] = useState({
     ...props.slotDetails,
@@ -32,16 +32,18 @@ const SlotDetailView: React.FC<slot> = function (props) {
     if (Object.keys(props.slotDetails).includes(event.target.id)) {
       //console.log (event.target.id)
       const regex = new RegExp("[^0-9]+");
+      const val = event.target.value;
 
       if (event.target.id == "req_capacity") {
-        if (regex.test(event.target.value)) {
+        const val2 = event.target.valueAsNumber;
+        if (regex.test(val)) {
           inputError = true;
-            errorText = "Wpisz liczbę";
+          errorText = "Wpisz liczbę";
           disabled = true;
         }
         setValue({
           ...value,
-          [event.target.id]: event.target.value,
+          [event.target.id]: val2,
           count: value.count + 1,
           buttonDisabled: disabled,
           inputValidationError: inputError,
@@ -50,22 +52,24 @@ const SlotDetailView: React.FC<slot> = function (props) {
       } else {
         setValue({
           ...value,
-          [event.target.id]: event.target.value,
+          [event.target.id]: val,
           count: value.count + 1,
           buttonDisabled: disabled,
-          inputValidationHelperText: " "
+          inputValidationHelperText: " ",
         });
       }
     }
   };
 
   const searchHandle = (event: KeyboardEvent) => {
-    const record = {
+    const record:BT.Slot = {
       slot_id: value.slot_id,
       itemid: value.itemid,
       req_capacity: value.req_capacity,
       slot_coord: value.slot_coord,
       kanban_id: props.kanbanDetails.kanban_id,
+      do_not_refill: false,
+      notes:""
     };
     const id = typeof value.slot_id == "number" ? value.slot_id : 0
 
@@ -73,12 +77,14 @@ const SlotDetailView: React.FC<slot> = function (props) {
     event.key === "Enter" && props.putSlotData(record, id) 
   }
   const buttonClickHandle = () => {
-    const record = {
+    const record: BT.Slot = {
       slot_id: value.slot_id,
       itemid: value.itemid,
       req_capacity: value.req_capacity,
       slot_coord: value.slot_coord,
       kanban_id: props.kanbanDetails.kanban_id,
+      do_not_refill: false,
+      notes: "",
     };
     const id = typeof value.slot_id == "number" ? value.slot_id : 0; //??
     props.putSlotData(record, id);
@@ -117,6 +123,7 @@ const SlotDetailView: React.FC<slot> = function (props) {
           label={capactityLabel}
           defaultValue={props.slotDetails.req_capacity}
           onChange={inputItem}
+          type="number"
           // onKeyUp={searchHandle}
           id="req_capacity"
         />

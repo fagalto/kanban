@@ -1,24 +1,30 @@
 import React from "react";
 import XLSX from "xlsx";
 
-interface itemList {
-  file: XLSX.WorkBook;
-}
 
-const ItemList = (props: itemList) => {
-  const file = props.file;
-  console.log("file:",file)
-  const sheetName = file.SheetNames[0];
-  const workSheet = file.Sheets[sheetName];
-  const sheets = file.SheetNames.map(sheet => {
-    const data = XLSX.utils.sheet_to_json(file.Sheets[sheet], { header: 3 });
-    console.log("sheetData:",data)
-  })
-  /* Convert array of arrays */
-    const data = XLSX.utils.sheet_to_json(workSheet, {header:3} );
- 
+  export type kanbanSetFile = {
+    ax_id: string;
+    axName: string;
+    reelVol: number;
+    quantity: number
+    quantity2: number
+  };
+const ItemList = (file: XLSX.WorkBook | null) => {
+    let kanbanSetData: kanbanSetFile[] = [];
+  if (file == null) {
+    return kanbanSetData;
+  }
+  const fixedHeader = ["ax_id", "axName", "reelVol", "quantity", "quantity2"];
+  //jeśli xls przesyłany z zakupów się zmieni (nazwa arkusza, kolejność kolumn), skrytp będzie wymagał aktualizacji.
+  const fixedSheetName = "do wyłożenia";
 
+  const sheets = file.SheetNames.forEach((sheet) => {
+    const data =
+      sheet == fixedSheetName &&
+      XLSX.utils.sheet_to_json<kanbanSetFile>(file.Sheets[sheet], { header: fixedHeader });
+    data!==false&&kanbanSetData.push(...data)
+  });
 
-  return <div></div>;
+  return kanbanSetData;
 };
 export default ItemList;

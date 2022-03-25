@@ -32,7 +32,7 @@ const KanbanConfiguration: React.FC<ReduxType> = function (props) {
   const showReport = () => {
     const coords = ",";
     const mode = { mode: "add" };
-    const elem = <KanbanReportView  />;
+    const elem = <KanbanReportView />;
 
     props.dialog.dialogOpen
       ? props.closeSlotDialog()
@@ -50,8 +50,12 @@ const KanbanConfiguration: React.FC<ReduxType> = function (props) {
 
   const filesUploadedAction = (files: File[]) => {
     props.filesUploaded(files);
+    props.openSlotDialog(",", <NewKanbanSet />, `Wgranie nowej konfiguracji kanbana`);
+    props.dialogSetCallback(() => {
+      props.fetchAllSlotsData(props.kanbanDetails.kanban_id);
+      props.highlightSlots([]);
+    });
   };
-
   return (
     // <Button variant="outlined" onClick={deleteHandle} startIcon={<DeleteIcon />}></Button>
     <>
@@ -63,7 +67,6 @@ const KanbanConfiguration: React.FC<ReduxType> = function (props) {
         <UploadFileForm uploadFileAction={filesUploadedAction} />
         <Button variant="outlined" onClick={showReport} startIcon={<ListAltIcon />}></Button>
       </Stack>
-      <NewKanbanSet />
     </>
   );
 };

@@ -25,10 +25,9 @@ const SlotFillet = (slot: filledSlot) => {
   ) {
     fillet = { height: "25%", backgroundColor: "#DC3232" };
   }
-
   return (
     <div className="slotFillet" style={slotBackgroundFillet}>
-      <div className="slotFillLevel" style={fillet}></div>
+      <div className="slotFillLevel" style={fillet}>{slot.balance>req_capacity?"+":"" }</div>
     </div>
   );
 };

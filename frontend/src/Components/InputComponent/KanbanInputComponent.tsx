@@ -3,6 +3,7 @@ import { connectToStore, ReduxType, mapInputToProps } from "../../Store/store";
 import { TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import CropFreeIcon from "@mui/icons-material/CropFree";
+import QrCode2Icon from "@mui/icons-material/QrCode2";
 import { kanbanMessage } from "../../Store/types";
 
 const KanbanInputComponent = (props: ReduxType) => {
@@ -52,7 +53,7 @@ const KanbanInputComponent = (props: ReduxType) => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <CropFreeIcon />
+              <QrCode2Icon />
             </InputAdornment>
           ),
         }}

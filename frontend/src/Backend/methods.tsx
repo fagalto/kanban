@@ -12,7 +12,10 @@ export async function postData(url: string, data: any = {}) {
 export async function getData(url: string) {
 
   const response = fetch(url, {
-    method: "GET", 
+    headers: { 
+      authorization: "asdasd asas",
+    },
+    method: "GET",
   });
   return response;
 }
@@ -22,6 +25,7 @@ export async function putData(url: string, data: any = {}) {
     method: "PUT", // *GET, POST, PUT, DELETE, etc.
     mode: "cors",
     headers: {
+
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data)
@@ -35,3 +39,4 @@ export async function deleteData(url: string) {
   });
   return response 
 }
+

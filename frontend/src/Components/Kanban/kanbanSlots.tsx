@@ -29,7 +29,7 @@ const KanBanSlots = function (props: ReduxType) {
   const body = rows.map((row) => {
     const rows = cols.map((column) => {
       const slot = {
-        slot: props.slotData.find((slot) => slot.slot_coord === `${column},${row}`),
+        slot: props.slotData.slotData.find((slot) => slot.slot_coord === `${column},${row}`),
         slotCoord: `${column},${row}`,
       };
       return <SlotComponent {...slot} key={`key${column},${row},${slot.slot?.itemid}`} />;

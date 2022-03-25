@@ -26,7 +26,7 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <DialogTitle id="draggable-dialog-title" sx={{ m: 0, p: 2, cursor: "move" }} {...other}>
       {children}
       {onClose ? (
         <IconButton
@@ -52,9 +52,14 @@ const KanBanDialog: React.FC<ReduxType> = function (props) {
     props.dialog.dialogCallback != null && props.dialog.dialogCallback();
   };
   return (
-    <Dialog open={props.dialog.dialogOpen} scroll="paper" maxWidth={false}>
+    <Dialog
+      open={props.dialog.dialogOpen}
+      scroll="paper"
+      maxWidth={false}
+      PaperComponent={PaperComponent}
+      aria-labelledby="draggable-dialog-title">
       <BootstrapDialogTitle onClose={handleClick}>{props.dialog.dialogTitle}</BootstrapDialogTitle>
-      <DialogContent >{props.dialog.component}</DialogContent>
+      <DialogContent>{props.dialog.component}</DialogContent>
     </Dialog>
   );
 };

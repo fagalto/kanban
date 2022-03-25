@@ -31,7 +31,7 @@ const UploadFilesComponent = (props: UploadFilesProps) => {
       reader.onload = function (this: FileReader, ev: ProgressEvent<FileReader>) {
         resolve(reader.result);
       };
-      reader.readAsText(file); // here the file can be read in different way Text, DataUrl, ArrayBuffer
+      reader.readAsArrayBuffer(file); // here the file can be read in different way Text, DataUrl, ArrayBuffer
     });
   }
 
@@ -43,7 +43,7 @@ const UploadFilesComponent = (props: UploadFilesProps) => {
       Array.from(event.target.files).forEach((file) => {
         const fileWillUpload = getFileFromInput(file)
           .then((binary) => { 
-            uploadedFiles.push(file);
+            uploadedFiles.push(binary);
           })
           .catch(function (reason) {
             console.log(`Error during upload ${reason}`);
@@ -53,6 +53,7 @@ const UploadFilesComponent = (props: UploadFilesProps) => {
       });
       Promise.all(fileLoadBuffer).then(() =>
         props.uploadFileAction(uploadedFiles)
+        
       );
     }
   }

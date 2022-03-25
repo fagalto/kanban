@@ -19,6 +19,7 @@ import {
   kanbanMessage,
   FilesBuffer,
   severity,
+  HighlightSlotsActions
 } from "./types";
 
 import * as BT from "../Backend/types";
@@ -61,6 +62,7 @@ const slotsInitState: SlotsState = {
   messages: [],
   slotsFetched: false,
   whStock: [],
+  highlightedSlots:[]
 };
 const fetchedReelsInit: fetchedReelsState = {
   reelsInKanban: [],
@@ -235,6 +237,11 @@ export const slotsReducer = (
         error: action.payload.error,
         messages: messageComposer(action.type, "error", state.messages),
       };
+    case HighlightSlotsActions.SET_HIGHLIGHTED_SLOTS:
+      return {
+        ...state,
+        highlightedSlots: action.payload.slots
+      };
     default:
       return state;
   }
@@ -302,7 +309,6 @@ export const filesReducer = (
     case FilesUploadActions.FILES_UPLOAD_START:
       return { ...state };
     case FilesUploadActions.FILES_UPLOAD_SUCCESS:
-      console.log("uploaded files:", action.payload.files);
       return {
         files: action.payload.files,
       };

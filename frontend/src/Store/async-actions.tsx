@@ -170,7 +170,7 @@ export const closeDialog = (dispatch: Dispatch<KanbanActions>) => {
   dispatch(closeSlotDialog());
 };
 
-export const putSlotData = (dispatch: Dispatch<KanbanActions>, data: any, id: number) => {
+export const putSlotData = (dispatch: Dispatch<KanbanActions>, data: BT.Slot, id: number) => {
   dispatch(slotDataPutStart());
 
   putData(`${endpoints.SLOT}/${id}`, data)

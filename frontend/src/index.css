@@ -18,6 +18,9 @@ body {
     display: inline-flex;
     
     }
+    .slotHighlighted {
+      background-color: hsl(56, 76%, 63%);
+    }
     .slot :hover {
       cursor:pointer; 
     }
@@ -34,6 +37,7 @@ body {
       display: flex;
       justify-content: flex-end;
       flex-direction: column;
+      text-align: center;
     }
    
     .slotData {

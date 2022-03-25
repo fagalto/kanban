@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import SlotFillet from "./SlotFillet/slotFillet";
 import React from "react";
 import SlotDialogComponent from "./SlotDialog/SlotDialogComponent";
-import { connectToStore, ReduxType } from "../../../Store/store";
+import { connectToStore, ReduxType, mapKanbanToProps } from "../../../Store/store";
 import * as BT from "../../../Backend/types";
 
 import EmptySlot from "./EmptySlot";
 
 interface slot extends ReduxType {
-  slotCoord: string;
   slot: BT.Slot;
+  slotCoord: string;
 }
 
 const Slot = (props: slot) => {
-  const details = props.slotData.find((slot) => slot.slot_coord === props.slotCoord);
+  const details = props.slot
   const level = props.reels.reelsInKanban.filter(
     (elem) => elem.slot_id === details?.slot_id
   ).length;
@@ -30,8 +30,8 @@ const Slot = (props: slot) => {
       props.postSlotData(record);
     };
 
-    details?.slot_id === undefined && createEmptySlot();
-  }, [props.slotData]);
+    details?.slot_id == undefined && createEmptySlot();
+  }, [props.slot]);
 
   //console.log("rendering slot", props.slotDetails.slot_coord)
   const slotDetailsWithBalance = {
@@ -44,10 +44,16 @@ const Slot = (props: slot) => {
 
     props.openSlotDialog(coords, elem, `Parametry Slotu ${details?.slot_id}`);
   };
+
+  const isHighlighted =
+    details !== undefined ? props.slotData.highlightedSlots.includes(details.slot_id) : false;
+
+  const className = isHighlighted ? "slot slotHighlighted" : "slot";
+
   return details == undefined ? (
     <EmptySlot />
   ) : (
-    <div className="slot" onClick={clickHandle}>
+    <div className={className} onClick={clickHandle}>
       <SlotFillet {...details} balance={level} />
       <div className="slotData">
         <div className="slot_ax">{details?.itemid}</div>

@@ -10,7 +10,7 @@ const Report = (props: ReduxType) => {
 
   let report: any[] = [];
   props.whStock.forEach((elem) => {
-    const slot = props.slotData.find((slot) => slot.itemid == elem.ITEMID);
+    const slot = props.slotData.slotData.find((slot) => slot.itemid == elem.ITEMID);
 
     if (slot) {
       const reels = props.reels.reelsInKanban.filter((elem) => elem.slot_id == slot.slot_id).length;

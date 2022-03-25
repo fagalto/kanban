@@ -28,6 +28,7 @@ export interface SlotsState {
   messages: kanbanMessage[];
   slotsFetched: boolean;
   whStock: BT.WhStock[];
+  highlightedSlots: number[];
 }
 
 export interface dialogState {
@@ -139,4 +140,8 @@ export enum StaticReportActions {
   FETCH_WHSTOCK_ERROR = "FETCH_WHSTOCK_ERROR",
   FETCH_WHSTOCK_SUCCESS = "FETCH_WHSTOCK_SUCCESS",
   FETCH_WHSTOCK_START = "FETCH_WHSTOCK_START",
+}
+
+export enum HighlightSlotsActions {
+  SET_HIGHLIGHTED_SLOTS = "SET_HIGHLIGHTED_SLOTS",
 }

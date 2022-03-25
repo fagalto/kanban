@@ -11,7 +11,6 @@ function approuter  (connection: Connection[])  {
   let router = express.Router();
   router.use((request: Request, response: Response, next) => {
    
-  
     resourceControllersFactory(request, response, router,  connection);
     next();
   });

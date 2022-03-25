@@ -5,7 +5,7 @@ import Slot from "./Slot";
 import Drop from "../../Drop/drop";
 import Drag, { dragElemInterface } from "../../Drag/drag";
 import { AllowedTypes } from "./ItemTypes";
-import { connectToStore, ReduxType } from "../../../Store/store";
+import { connectToStore, ReduxType, mapKanbanToProps } from "../../../Store/store";
 
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -28,10 +28,10 @@ export interface DropResult extends ReduxType {
 const SlotComponent = (props: DropResult) => {
   const details: slotData = props.slot;
 
-  const slotCoord = { slotCoord: props.slotCoord };
+  const slotdata = { slotCoord: props.slotCoord, slot:details };
 
   const dropData = {
-    elem: <Slot {...slotCoord} />,
+    elem: <Slot {...slotdata} />,
     dropId: details?.slot_id,
     allowedTypes: AllowedTypes.SLOT,
     slot: details,
@@ -54,4 +54,4 @@ const SlotComponent = (props: DropResult) => {
     </Grid>
   );
 };
-export default connectToStore(SlotComponent);
+export default connectToStore(SlotComponent, mapKanbanToProps);
