@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 
 import ItemList from "./ItemList";
 import { kanbanSetFile } from "./ItemList";
-import KANBAN_Slot_Details from "@shared/Slot";
+import * as BT from "../../../Backend/types";
 import { highlightSlots } from "../../../Store/actions";
 import Box from "@mui/material/Box";
 
@@ -23,18 +23,21 @@ const kanbanProposedItemsView = (props: ReduxType) => {
     props.filesBuffer.files.length > 0
       ? XLSX.read(props.filesBuffer.files[0], { type: "buffer" })
       : null;
-  const addItemToPostList = (item: kanbanSetFile, itemsToAdd: KANBAN_Slot_Details[] = []) => {
+  const addItemToPostList = (item: kanbanSetFile, itemsToAdd: BT.Slot[] = []) => {
     //find first non configured slot and not in buffer an push it to buffer
     const firstFreeSlot = Object.assign(
       {},
       props.slotData.slotData.find(
         (slot) =>
-          (slot.itemid == null ||
-          slot.itemid=="") &&
-            itemsToAdd.find((slotC) => slotC.slot_coord == slot.slot_coord) == undefined)
-      
+          (slot.itemid == null || slot.itemid == "") &&
+          itemsToAdd.find((slotC) => slotC.slot_coord == slot.slot_coord) == undefined
+      )
     );
-    if (firstFreeSlot != undefined && Number.parseInt(item.ax_id) && firstFreeSlot.kanban_id!=undefined) {
+    if (
+      firstFreeSlot != undefined &&
+      Number.parseInt(item.ax_id) &&
+      firstFreeSlot.kanban_id != undefined
+    ) {
       const quantity = item.quantity | item.quantity2;
       firstFreeSlot.itemid = item.ax_id;
       firstFreeSlot.req_capacity = quantity;
@@ -42,9 +45,9 @@ const kanbanProposedItemsView = (props: ReduxType) => {
     }
   };
   const addItemToUpdateList = (
-    slot: KANBAN_Slot_Details,
+    slot: BT.Slot,
     item: kanbanSetFile,
-    updateBuffer: KANBAN_Slot_Details[] = []
+    updateBuffer: BT.Slot[] = []
   ) => {
     const quantity = item.quantity | item.quantity2;
     const updatedSlot = Object.assign({}, slot);
@@ -55,9 +58,9 @@ const kanbanProposedItemsView = (props: ReduxType) => {
   };
 
   const kan = ItemList(file);
-  const slotsToUpdate: KANBAN_Slot_Details[] = [];
-  const itemsToAdd: KANBAN_Slot_Details[] = [];
-  const itemsToRemove: KANBAN_Slot_Details[] = [];
+  const slotsToUpdate: BT.Slot[] = [];
+  const itemsToAdd: BT.Slot[] = [];
+  const itemsToRemove: BT.Slot[] = [];
   kan.forEach((item) => {
     let itemInKanban = props.slotData.slotData.find((slot) => slot.itemid == item.ax_id);
     itemInKanban != undefined
@@ -71,32 +74,31 @@ const kanbanProposedItemsView = (props: ReduxType) => {
   });
 
 
-  const highlightSlots = (slots: KANBAN_Slot_Details[]) => {
+  const highlightSlots = (slots: BT.Slot[]) => {
     const slotsToHighlight = slots.map((slot) => slot.slot_id);
     props.highlightSlots(slotsToHighlight);
-
   };
 
-  const changeSlots = (slots: KANBAN_Slot_Details[]) => {
-    slots.forEach(slot => {
-      props.putSlotData(slot,slot.slot_id)
-    })
+  const changeSlots = (slots: BT.Slot[]) => {
+    slots.forEach((slot) => {
+      props.putSlotData(slot, slot.slot_id);
+    });
     //props.fetchAllSlotsData(props.kanbanDetails.kanban_id)
     props.highlightSlots([]);
-  }
-  const removeSlots = (slots: KANBAN_Slot_Details[]) => {
+  };
+  const removeSlots = (slots: BT.Slot[]) => {
     slots.forEach((slot) => {
-      slot.itemid = ""
-      slot.req_capacity=0
+      slot.itemid = "";
+      slot.req_capacity = 0;
       props.putSlotData(slot, slot.slot_id);
     });
 
     props.highlightSlots([]);
   };  
 
-  const addSlots = (slots: KANBAN_Slot_Details[]) => {
+  const addSlots = (slots: BT.Slot[]) => {
     slots.forEach((slot) => {
-      console.log("adding slot:", slot)
+      console.log("adding slot:", slot);
       props.putSlotData(slot, slot.slot_id);
     });
     //props.fetchAllSlotsData(props.kanbanDetails.kanban_id)

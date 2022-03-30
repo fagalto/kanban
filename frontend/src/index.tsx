@@ -3,10 +3,11 @@ import Kanban from "./Components/Kanban/Kanban";
 
 import "./index.css";
 
-const kanbans = [77,
+let kanbans = [77,
 82,
 83,
 112,
-113];
+    113];
+kanbans = [77]
 
 ReactDOM.render(Kanban(kanbans), document.getElementById("root") as HTMLElement);

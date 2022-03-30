@@ -5,6 +5,8 @@ import getStatus from "../Router/httpResponse";
 import { pathDecomposer } from "./utils/utils";
 import { resourcesController } from "./index";
 import { createConnection, Connection } from "typeorm";
+import { getEndpoints,dirname } from "../endpoints/endpoints";
+
 
 function resourceControllersFactory(request: Request, response: Response, router: express.Router, connection:Connection[]) {
 
@@ -17,7 +19,10 @@ function resourceControllersFactory(request: Request, response: Response, router
   );
   if (dbResource === undefined) {
     const { code, name } = getStatus(404);
-    return response.status(code).json(name+" resource"+ restParams.resourceName +" not exit");
+ 
+    const res = response.writeHead(404, { 'Content-Type': 'text/plain' }).end('RESOURCE NOT FOUND\n'+getEndpoints());
+    return res
+    //return response.status(code).json(name + " resource" + restParams.resourceName + " not exsts" + getEndpoints());
   }
  
   const requestObject = { dbResource, restParams, response, request, router, connection };

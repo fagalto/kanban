@@ -6,11 +6,10 @@
     "target": "es2017",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "rootDir": "./src",
-    "outDir": "./build"
+    "paths": {
+      "@shared/*": ["./src/entity/*"],
+      "@endpoints": ["./src/endpoints/endpoints.ts"]
+    }
   },
-  "include": ["src"],
-  "paths": {
-    "@shared/*": ["src/entity/*"]
-  }
+  "include": ["src"]
 }

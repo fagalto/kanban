@@ -22,6 +22,7 @@
     "strictPropertyInitialization": true,
     "paths": {
       "@shared/*": ["../backend/src/entity/*"],
+      "@endpoints/*": ["../backend/src/endpoints/*"],
       "typeorm": ["../node_modules/typeorm/typeorm-model-shim.js"]
     }
   },

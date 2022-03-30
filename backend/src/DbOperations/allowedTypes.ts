@@ -1,4 +1,3 @@
-import configKeyChain from "../config/dbConfigs";
 import * as schemas from "./schemas";
 
 enum methodsAllowed {

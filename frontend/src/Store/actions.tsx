@@ -19,7 +19,6 @@ import {
 import * as BT from "../Backend/types";
 
 export const kanDataFetched = (data: BT.Kanban) => {
-  console.log(data)
   return action(KanbanDetailsActions.FETCH_KANBAN_DATA_SUCCESS, data );
 };
 export const kanDataFetchStart = () => {

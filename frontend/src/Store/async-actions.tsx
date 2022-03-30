@@ -33,7 +33,7 @@ import {
   WhStockFetched,
   WhStockFetchError
 } from "./actions";
-import endpoints from "../Backend/endpoints";
+import   endpoints   from "../Backend/endpoints";
 import { getData, postData, putData, deleteData } from "../Backend/methods";
 import { KanbanActions, SlotPutActions } from "./types";
 import { slotData } from "../Interfaces/interfaces";
@@ -164,6 +164,7 @@ export const openDialog = (
   component: React.ReactElement,
   title: string
 ) => {
+  console.log(endpoints.KANBAN_REELS(77))
   dispatch(openSlotDialog(xy, component, title));
 };
 export const closeDialog = (dispatch: Dispatch<KanbanActions>) => {
