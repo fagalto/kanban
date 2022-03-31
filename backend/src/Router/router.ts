@@ -1,17 +1,17 @@
 import express, { Request, Response, NextFunction } from "express";
-import  { resourceControllersFactory} from "../controller/resourceControllersFactory";
-import getStatus from "./httpResponse"
+import  { resourceControllerFactory} from "../controller/resourceControllerFactory";
+import getStatus from "../config/httpResponse"
 import { createConnection, Connection, SimpleConsoleLogger } from "typeorm";
 
 
 
 
 
-function approuter  (connection: Connection[])  {
+function appRouter  (connection: Connection[])  {
   let router = express.Router();
   router.use((request: Request, response: Response, next) => {
    
-    resourceControllersFactory(request, response, router,  connection);
+    resourceControllerFactory(request, response, router,  connection);
     next();
   });
   return router
@@ -20,4 +20,4 @@ function approuter  (connection: Connection[])  {
 
 
 
-export default approuter;
+export default appRouter;

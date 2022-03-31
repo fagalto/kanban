@@ -1,8 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
 import { resController } from "../utils/utils";
 import { handleDbQuery } from "./_defaultmethods";
-import getStatus from "../../Router/httpResponse";
-import { methodsAllowed } from "../../DbOperations/allowedTypes";
+import getStatus from "../../config/httpResponse";
+import { methodsAllowed } from "../../config/allowedResources";
 import SlotReel from "../../entity/SlotReel";
 
 const slotReelsController = (res: resController) => {

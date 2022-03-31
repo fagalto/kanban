@@ -1,10 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
 
-import { pathDecomposer, restParam, resController } from "../utils/utils";
-import * as Db from "../../DbOperations/dboperations";
-import getStatus, {httpStatus } from "../../Router/httpResponse";
-import { IRecordSet } from "mssql";
-import { methodsAllowed } from "../../DbOperations/allowedTypes"
+
+import getStatus, {httpStatus } from "../../config/httpResponse";
+import { methodsAllowed } from "../../config/allowedResources"
 interface dbReply {
   succes: httpStatus
   error: httpStatus

@@ -16,7 +16,7 @@ const staticEndpoints = {
 const getEndpoints = () => {
   let endpointString = "AVAILABLE ENDPOINTS:\n"
   Object.entries(staticEndpoints).forEach(elem  => {
-    endpointString = `${endpointString}\n${elem[0]}': ${elem[1]}`
+    endpointString = `${endpointString}\n${elem[0]} : ${elem[1]}`
   })
   return endpointString
 }

@@ -1,14 +1,14 @@
 import express, { Request, Response, NextFunction } from "express";
 
-import { allowedResources, methodsAllowed } from "../DbOperations/allowedTypes";
-import getStatus from "../Router/httpResponse";
+import { allowedResources, methodsAllowed } from "../config/allowedResources";
+import getStatus from "../config/httpResponse";
 import { pathDecomposer } from "./utils/utils";
 import { resourcesController } from "./index";
 import { createConnection, Connection } from "typeorm";
 import { getEndpoints,dirname } from "../endpoints/endpoints";
 
 
-function resourceControllersFactory(request: Request, response: Response, router: express.Router, connection:Connection[]) {
+function resourceControllerFactory(request: Request, response: Response, router: express.Router, connection:Connection[]) {
 
     
 
@@ -31,6 +31,6 @@ function resourceControllersFactory(request: Request, response: Response, router
   return resourcesController(requestObject);
 }
 
-export { resourceControllersFactory };
+export { resourceControllerFactory };
 
 

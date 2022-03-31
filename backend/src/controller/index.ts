@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 
 import { pathDecomposer, restParam, resController } from "./utils/utils";
-import { allowedResources, methodsAllowed } from "../DbOperations/allowedTypes";
+import { allowedResources, methodsAllowed } from "../config/allowedResources";
 import * as constollers from "./controllers/index";
 
 const resourcesController = (res: resController) => {

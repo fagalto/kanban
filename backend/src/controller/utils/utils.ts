@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction, Router } from "express";
 import { Connection } from "typeorm";
 
-import { dbResource } from "../../DbOperations/allowedTypes";
+import { dbResource } from "../../config/allowedResources";
 
 type resController = {
   dbResource: dbResource;

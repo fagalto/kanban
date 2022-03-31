@@ -1,10 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
 import { resController } from "../utils/utils";
 import { handleDbQuery } from "./_defaultmethods";
-import getStatus from "../../Router/httpResponse";
-import { methodsAllowed } from "../../DbOperations/allowedTypes";
+import getStatus from "../../config/httpResponse";
+import { methodsAllowed } from "../../config/allowedResources";
 import Slot from "../../entity/Slot";
-import { kanban } from "../../DbOperations/schemas";
+import { kanban } from "../../config/schemas";
 
 const slotController = (res: resController) => {
   const { request, restParams, response, router, connection, dbResource } = res;
